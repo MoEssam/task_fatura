@@ -23,25 +23,47 @@ exports.getAllitems = (req, res) => {
 }
 
 exports.getAllproducts = (req, res) => {
-    const limit = 25
-    const page = req.query.page
-    const offset = (page - 1) * limit
-    const category = req.params.category
-    const query = "SELECT products.name AS `Product Name`,category.name AS `Category Name`FROM products JOIN category ON products.category_id = category.id WHERE category.name =" + category + " limit " + limit + " OFFSET " + offset
-    connection.query(query, function (error, results, fields) {
-        if (error) throw error;
-        var jsonResult = {
-            'items_page_count': results.length,
-            'page_number': page,
-            'Items': results
-        }
+    const limit = 5
+    if (req.query.page) {
+        const page = req.query.page
+        const offset = (page - 1) * limit
+        const category = req.params.category
+        const query = "SELECT products.name AS `Product Name`,category.name AS `Category Name`FROM products JOIN category ON products.category_id = category.id WHERE category.name =" + category + " limit " + limit + " OFFSET " + offset
+        connection.query(query, function (error, results, fields) {
+            if (error) throw error;
+            var jsonResult = {
+                'items_page_count': results.length,
+                'page_number': page,
+                'Items': results
+            }
 
-        var myJsonString = JSON.parse(JSON.stringify(jsonResult));
-        res.statusMessage = "Products for page " + page;
-        res.statusCode = 200;
-        res.json(myJsonString);
-        res.end();
-    })
+            var myJsonString = JSON.parse(JSON.stringify(jsonResult));
+            res.statusMessage = "Products for page " + page;
+            res.statusCode = 200;
+            res.json(myJsonString);
+            res.end();
+        })
+    } else {
+        //const offset = (page - 1) * limit
+        const category = req.params.category
+        const query = "SELECT products.name AS `Product Name`,category.name AS `Category Name`FROM products JOIN category ON products.category_id = category.id WHERE category.name =" + category
+        connection.query(query, function (error, results, fields) {
+            if (error) throw error;
+            var jsonResult = {
+                'items_page_count': results.length,
+                //'page_number': page,
+                'Items': results
+            }
+
+            var myJsonString = JSON.parse(JSON.stringify(jsonResult));
+            //res.statusMessage = "Products for page " + page;
+            res.statusCode = 200;
+            res.json(myJsonString);
+            res.end();
+        })
+    }
+
+
 }
 
 exports.getlessPrice = (req, res) => {
