@@ -23,7 +23,7 @@ exports.getAllitems = (req, res) => {
 }
 
 exports.getAllproducts = (req, res) => {
-    const limit = 5
+    const limit = 25
     if (req.query.page) {
         const page = req.query.page
         const offset = (page - 1) * limit
