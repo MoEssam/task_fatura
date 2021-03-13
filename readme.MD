@@ -1,5 +1,5 @@
 1. git clone git@github.com:MoEssam/task_fatura.git
-2. cd task-fatura
+2. cd task_fatura
 3. npm i (to install all dependecnies)
 4. npm run start
 5. APIs (You can delete ?page=1 as I only have 14 products which fits in page where limit is 25)  
